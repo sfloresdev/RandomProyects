@@ -3,13 +3,13 @@
 
 int	main(void)
 {
-	const char *FILE_NAME = "lostmedia2.wav";
+	const char *FILE_NAME = "lostmedia3.wav";
 	SDL_AudioSpec spec;
 	Uint8 *audio_buf;
 	Uint32 audio_len;
 
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
-    SDL_InitSubSystem(SDL_INIT_VIDEO);
+	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
 	SDL_AudioSpec *return_spec = SDL_LoadWAV(FILE_NAME, &spec, &audio_buf,
 			&audio_len);
@@ -46,40 +46,40 @@ int	main(void)
 
 	SDL_PauseAudioDevice(device_id, 0);
 	printf("\nControles: \n");
-    //printf("  ESPACIO: Pausar/Reanudar\n");
-    printf("  Q o ESC: Salir\n\n");
+	// printf("  ESPACIO: Pausar/Reanudar\n");
+	printf("  Q o ESC: Salir\n\n");
 
-    SDL_Event event;
-    int running = 1;
-    int paused = 0;
+	SDL_Event event;
+	int running = 1;
 
-    while (running)
-    {
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-                running = 0;
-            else if (event.type == SDL_KEYDOWN)
-            {
-                if (SDLK_q || SDLK_ESCAPE)
-                {
-                    running = 0;
-                    break;
-                }
-            }
-        }
-        // Checks if audio has finished
-        if (SDL_GetQueuedAudioSize(device_id) == 0)
-        {
-            printf("Audio finished\n");
-            running = 0;
-        }
-        SDL_Delay(100);
-    }
+	while (running)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+				running = 0;
+			else if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_q
+					|| event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					running = 0;
+					break ;
+				}
+			}
+		}
+		// Checks if audio has finished
+		if (SDL_GetQueuedAudioSize(device_id) == 0)
+		{
+			printf("Audio finished\n");
+			running = 0;
+		}
+		SDL_Delay(100);
+	}
 
 	SDL_CloseAudioDevice(device_id);
 	SDL_FreeWAV(audio_buf);
-    SDL_Quit();
+	SDL_Quit();
 
-    return 0;
+	return (0);
 }
